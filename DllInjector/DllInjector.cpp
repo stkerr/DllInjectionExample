@@ -36,6 +36,16 @@ DWORD GetPidByName(LPTSTR name)
 	return dwReturnable;
 }
 
+#ifdef _DEBUG
+void PrintDebugMessage(LPTSTR message)
+{
+	_tprintf(message);
+	OutputDebugString(message);
+}
+#else
+#define PrintDebugMessage(str)
+#endif
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	/* Specify our DLL that we are going to inject */
@@ -47,7 +57,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	DWORD dwTargetPid = GetPidByName(_T("TargetApplication.exe"));
 	if(!dwTargetPid)
 	{
-		_tprintf(_T("Please start the target application.\n"));
+		PrintDebugMessage(_T("Please start the target application.\n"));
 		return -1;
 	}
 		
@@ -55,10 +65,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, dwTargetPid);
 	if(!hProcess)
 	{
-		_tprintf(_T("Couldn't get handle to process.\n"));
+		PrintDebugMessage(_T("Couldn't get handle to process.\n"));
 		RtlZeroMemory(buffer, 1024);
 		_sntprintf(buffer, 1024, _T("Error: %d\n"), GetLastError());
-		_tprintf(buffer);
+		PrintDebugMessage(buffer);
 		return -1;
 	}
 
@@ -66,10 +76,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	LPVOID lpAddr = VirtualAllocEx(hProcess, 0, dwPayloadPathLength, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 	if(!lpAddr)
 	{
-		_tprintf(_T("Couldn't do VirtualAllocEx.\n"));
+		PrintDebugMessage(_T("Couldn't do VirtualAllocEx.\n"));
 		RtlZeroMemory(buffer, 1024);
 		_sntprintf(buffer, 1024, _T("Error: %d\n"), GetLastError());
-		_tprintf(buffer);
+		PrintDebugMessage(buffer);
 		return -1;
 	}
 
@@ -78,10 +88,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	BOOL bWritten = WriteProcessMemory(hProcess, lpAddr, szPayloadDll, dwPayloadPathLength, &dwBytesWritten);
 	if(!bWritten)
 	{
-		_tprintf(_T("WriteProcessMemory failed.\n"));
+		PrintDebugMessage(_T("WriteProcessMemory failed.\n"));
 		RtlZeroMemory(buffer, 1024);
 		_sntprintf(buffer, 1024, _T("Error: %d\n"), GetLastError());
-		_tprintf(buffer);
+		PrintDebugMessage(buffer);
 		return -1;
 	}
 
@@ -89,10 +99,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	HMODULE hKernel32 = GetModuleHandle(_T("kernel32.dll"));
 	if(!hKernel32)
 	{
-		_tprintf(_T("GetModuleHandle failed.\n"));
+		PrintDebugMessage(_T("GetModuleHandle failed.\n"));
 		RtlZeroMemory(buffer, 1024);
 		_sntprintf(buffer, 1024, _T("Error: %d\n"), GetLastError());
-		_tprintf(buffer);
+		PrintDebugMessage(buffer);
 		return -1;
 	}
 
@@ -100,17 +110,17 @@ int _tmain(int argc, _TCHAR* argv[])
 	LPTHREAD_START_ROUTINE fpLoadLibrary = (LPTHREAD_START_ROUTINE )GetProcAddress(hKernel32, "LoadLibraryA");
 	if(!fpLoadLibrary)
 	{
-		_tprintf(_T("GetProcAddress failed.\n"));
+		PrintDebugMessage(_T("GetProcAddress failed.\n"));
 		RtlZeroMemory(buffer, 1024);
 		_sntprintf(buffer, 1024, _T("Error: %d\n"), GetLastError());
-		_tprintf(buffer);
+		PrintDebugMessage(buffer);
 		return -1;
 	}
 	else
 	{
 		RtlZeroMemory(buffer, 1024);
 		_sntprintf(buffer, 1024, _T("fpLoadLibrary: %08X\n"), (int)fpLoadLibrary);
-		_tprintf(buffer);
+		PrintDebugMessage(buffer);
 	}
 	
 	/* Create a remote thread in the target process. It will call LoadLibraryA with our DLL as an argument, thus loading our payload DLL */
@@ -118,10 +128,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	HANDLE hRemoteThread = CreateRemoteThread(hProcess, 0, 0, fpLoadLibrary, lpAddr, 0, &dwThreadId);
 	if(!hRemoteThread)
 	{
-		_tprintf(_T("CreateRemoteThread failed.\n"));
+		PrintDebugMessage(_T("CreateRemoteThread failed.\n"));
 		RtlZeroMemory(buffer, 1024);
 		_sntprintf(buffer, 1024, _T("Error: %d\n"), GetLastError());
-		_tprintf(buffer);
+		PrintDebugMessage(buffer);
 		return -1;
 	}
 
