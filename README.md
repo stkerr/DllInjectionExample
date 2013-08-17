@@ -7,13 +7,13 @@ The example is composed of a Visual Studio 2010 solution with 3 projects.
 
 Project Overview
 ----------------
-DllInjector
+## DllInjector
 	This project contains code to perform the actual DLL injection. It is most likely the project you are interested in.
 
-InjectableDLL
+## InjectableDLL
 	A barebones DLL example that shows a message box when it is loaded into a process.
 
-TargetApplication
+## TargetApplication
 	A simple Windows Form application to inject a DLL into.
 
 Note
