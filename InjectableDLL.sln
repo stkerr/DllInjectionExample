@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InjectableDLL", "InjectableDLL\InjectableDLL.vcxproj", "{533BF3F1-FAD0-4668-9D6E-70D096804C24}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TargetApplication", "TargetApplication\TargetApplication.vcxproj", "{0D45C494-F9E4-4691-ACC9-BBACA7D33384}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DllInjector", "DllInjector\DllInjector.vcxproj", "{7A3B653D-42FF-4B8E-80B5-41EB13E6294B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{533BF3F1-FAD0-4668-9D6E-70D096804C24}.Debug|Win32.ActiveCfg = Debug|Win32
+		{533BF3F1-FAD0-4668-9D6E-70D096804C24}.Debug|Win32.Build.0 = Debug|Win32
+		{533BF3F1-FAD0-4668-9D6E-70D096804C24}.Release|Win32.ActiveCfg = Release|Win32
+		{533BF3F1-FAD0-4668-9D6E-70D096804C24}.Release|Win32.Build.0 = Release|Win32
+		{0D45C494-F9E4-4691-ACC9-BBACA7D33384}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0D45C494-F9E4-4691-ACC9-BBACA7D33384}.Debug|Win32.Build.0 = Debug|Win32
+		{0D45C494-F9E4-4691-ACC9-BBACA7D33384}.Release|Win32.ActiveCfg = Release|Win32
+		{0D45C494-F9E4-4691-ACC9-BBACA7D33384}.Release|Win32.Build.0 = Release|Win32
+		{7A3B653D-42FF-4B8E-80B5-41EB13E6294B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7A3B653D-42FF-4B8E-80B5-41EB13E6294B}.Debug|Win32.Build.0 = Debug|Win32
+		{7A3B653D-42FF-4B8E-80B5-41EB13E6294B}.Release|Win32.ActiveCfg = Release|Win32
+		{7A3B653D-42FF-4B8E-80B5-41EB13E6294B}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
